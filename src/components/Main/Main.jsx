@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Column from '../Column/Column'
-import { cardsData } from '../../../data'
+import { cardsData } from '../../../data.js'
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true)
