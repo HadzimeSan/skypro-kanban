@@ -1,13 +1,13 @@
 import Card from '../Card/Card'
 
 function Column({ title, cards = [] }) {
-  const getCategoryClass = (category) => {
+  const getCategoryClass = (topic) => {
     const classes = {
-      "Web Design": "_orange",
-      "Research": "_green",
-      "Copywriting": "_purple"
+      'Web Design': '_orange',
+      Research: '_green',
+      Copywriting: '_purple',
     }
-    return classes[category] || "_orange"
+    return classes[topic] || '_orange'
   }
 
   return (
@@ -17,13 +17,13 @@ function Column({ title, cards = [] }) {
       </div>
       <div className="cards">
         {cards.length > 0 ? (
-          cards.map((card, index) => (
+          cards.map((card) => (
             <Card
-              key={index}
+              key={card.id}
               title={card.title}
               date={card.date}
-              category={card.category}
-              categoryClass={getCategoryClass(card.category)}
+              category={card.topic}
+              categoryClass={getCategoryClass(card.topic)}
             />
           ))
         ) : (

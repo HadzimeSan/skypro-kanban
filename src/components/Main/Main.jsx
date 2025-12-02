@@ -1,51 +1,51 @@
+import { useEffect, useState } from 'react'
 import Column from '../Column/Column'
+import { cardsData } from '../../../data'
 
-function Main({ columns = [] }) {
-  const defaultColumns = [
-    {
-      title: "Без статуса",
-      cards: [
-        { title: "Название задачи", date: "30.10.23", category: "Web Design" },
-        { title: "Название задачи", date: "30.10.23", category: "Research" }
-      ]
-    },
-    {
-      title: "Нужно сделать",
-      cards: [
-        { title: "Название задачи", date: "30.10.23", category: "Web Design" }
-      ]
-    },
-    {
-      title: "В работе",
-      cards: [
-        { title: "Название задачи", date: "30.10.23", category: "Web Design" },
-        { title: "Название задачи", date: "30.10.23", category: "Web Design" }
-      ]
-    },
-    {
-      title: "Тестирование",
-      cards: [
-        { title: "Название задачи", date: "30.10.23", category: "Research" }
-      ]
-    },
-    {
-      title: "Готово",
-      cards: [
-        { title: "Название задачи", date: "30.10.23", category: "Research" }
-      ]
-    }
+function Main() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [cards, setCards] = useState([])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCards(cardsData)
+      setIsLoading(false)
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (isLoading) {
+    return (
+      <main className="main">
+        <div className="container">
+          <div className="loader">Данные загружаются…</div>
+        </div>
+      </main>
+    )
+  }
+
+  const columnsConfig = [
+    { title: 'Без статуса', status: 'Без статуса' },
+    { title: 'Нужно сделать', status: 'Нужно сделать' },
+    { title: 'В работе', status: 'В работе' },
+    { title: 'Тестирование', status: 'Тестирование' },
+    { title: 'Готово', status: 'Готово' },
   ]
 
-  const columnsToRender = columns.length > 0 ? columns : defaultColumns
+  const columnsToRender = columnsConfig.map((column) => ({
+    title: column.title,
+    cards: cards.filter((card) => card.status === column.status),
+  }))
 
   return (
     <main className="main">
       <div className="container">
         <div className="main__block">
           <div className="main__content">
-            {columnsToRender.map((column, index) => (
+            {columnsToRender.map((column) => (
               <Column
-                key={index}
+                key={column.title}
                 title={column.title}
                 cards={column.cards}
               />
