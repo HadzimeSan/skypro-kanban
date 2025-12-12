@@ -1,24 +1,38 @@
-function Card({ title, date, category, categoryClass }) {
+import { getCardTheme } from '../../theme'
+import {
+  CardItem,
+  CardStyled,
+  CardGroup,
+  CardTheme,
+  CardButton,
+  CardContent,
+  CardTitle,
+  CardDate,
+} from './Card.styled'
+
+function Card({ title, date, category }) {
+  const theme = getCardTheme(category)
+
   return (
-    <div className="cards__item">
-      <div className="cards__card card">
-        <div className="card__group">
-          <div className={`card__theme ${categoryClass}`}>
-            <p className={categoryClass}>{category}</p>
-          </div>
+    <CardItem>
+      <CardStyled>
+        <CardGroup>
+          <CardTheme theme={theme}>
+            <p>{category}</p>
+          </CardTheme>
           <a href="#popBrowse" target="_self">
-            <div className="card__btn">
+            <CardButton>
               <div></div>
               <div></div>
               <div></div>
-            </div>
+            </CardButton>
           </a>
-        </div>
-        <div className="card__content">
+        </CardGroup>
+        <CardContent>
           <a href="" target="_blank">
-            <h3 className="card__title">{title}</h3>
+            <CardTitle>{title}</CardTitle>
           </a>
-          <div className="card__date">
+          <CardDate>
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
               <g clipPath="url(#clip0_1_415)">
                 <path d="M10.5625 2.03125H2.4375C1.7644 2.03125 1.21875 2.5769 1.21875 3.25V10.5625C1.21875 11.2356 1.7644 11.7812 2.4375 11.7812H10.5625C11.2356 11.7812 11.7812 11.2356 11.7812 10.5625V3.25C11.7812 2.5769 11.2356 2.03125 10.5625 2.03125Z" stroke="#94A6BE" strokeWidth="0.8" strokeLinejoin="round" />
@@ -31,10 +45,10 @@ function Card({ title, date, category, categoryClass }) {
               </defs>
             </svg>
             <p>{date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CardDate>
+        </CardContent>
+      </CardStyled>
+    </CardItem>
   )
 }
 

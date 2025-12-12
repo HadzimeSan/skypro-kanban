@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import Column from '../Column/Column'
 import { cardsData } from '../../../data.js'
+import { Container } from '../App.styled'
+import { MainStyled, MainBlock, MainContent } from './Main.styled'
+import Loader from '../Loader/Loader'
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true)
@@ -17,11 +20,11 @@ function Main() {
 
   if (isLoading) {
     return (
-      <main className="main">
-        <div className="container">
-          <div className="loader">Данные загружаются…</div>
-        </div>
-      </main>
+      <MainStyled>
+        <Container>
+          <Loader />
+        </Container>
+      </MainStyled>
     )
   }
 
@@ -39,10 +42,10 @@ function Main() {
   }))
 
   return (
-    <main className="main">
-      <div className="container">
-        <div className="main__block">
-          <div className="main__content">
+    <MainStyled>
+      <Container>
+        <MainBlock>
+          <MainContent>
             {columnsToRender.map((column) => (
               <Column
                 key={column.title}
@@ -50,10 +53,10 @@ function Main() {
                 cards={column.cards}
               />
             ))}
-          </div>
-        </div>
-      </div>
-    </main>
+          </MainContent>
+        </MainBlock>
+      </Container>
+    </MainStyled>
   )
 }
 

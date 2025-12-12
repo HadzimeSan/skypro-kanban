@@ -1,4 +1,13 @@
 import { useState } from 'react'
+import { Container } from '../App.styled'
+import {
+  HeaderStyled,
+  HeaderBlock,
+  Logo,
+  Nav,
+  ButtonNew,
+  UserLink,
+} from './Header.styled'
 
 function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' }) {
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false)
@@ -9,26 +18,26 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
   }
 
   return (
-    <header className="header">
-      <div className="container">
-        <div className="header__block">
-          <div className="header__logo _show _light">
+    <HeaderStyled>
+      <Container>
+        <HeaderBlock>
+          <Logo className="_show _light">
             <a href="" target="_self">
               <img src="/images/logo.png" alt="logo" />
             </a>
-          </div>
-          <div className="header__logo _dark">
+          </Logo>
+          <Logo className="_dark">
             <a href="" target="_self">
               <img src="/images/logo_dark.png" alt="logo" />
             </a>
-          </div>
-          <nav className="header__nav">
-            <button className="header__btn-main-new _hover01" id="btnMainNew">
+          </Logo>
+          <Nav>
+            <ButtonNew id="btnMainNew">
               <a href="#popNewCard">Создать новую задачу</a>
-            </button>
-            <a href="#user-set-target" className="header__user _hover02" onClick={handleUserClick}>
+            </ButtonNew>
+            <UserLink href="#user-set-target" onClick={handleUserClick}>
               {userName}
-            </a>
+            </UserLink>
             <div
               className="header__pop-user-set pop-user-set"
               id="user-set-target"
@@ -44,10 +53,10 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
                 <a href="#popExit">Выйти</a>
               </button>
             </div>
-          </nav>
-        </div>
-      </div>
-    </header>
+          </Nav>
+        </HeaderBlock>
+      </Container>
+    </HeaderStyled>
   )
 }
 
