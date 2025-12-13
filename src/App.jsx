@@ -1,4 +1,5 @@
-import './App.css'
+import './popups.css'
+import GlobalStyle from './GlobalStyle'
 import PopExit from './components/PopExit/PopExit'
 import PopNewCard from './components/PopNewCard/PopNewCard'
 import PopBrowse from './components/PopBrowse/PopBrowse'
@@ -8,16 +9,19 @@ import { Wrapper } from './components/App.styled'
 
 function App() {
   return (
-    <Wrapper>
-      {/* pop-up start*/}
-      <PopExit />
-      <PopNewCard />
-      <PopBrowse />
-      {/* pop-up end*/}
+    <>
+      <GlobalStyle />
+      <Wrapper>
+        {/* pop-up start*/}
+        <PopExit />
+        <PopNewCard />
+        <PopBrowse />
+        {/* pop-up end*/}
 
-      <Header />
-      <Main />
-    </Wrapper>
+        <Header />
+        <Main />
+      </Wrapper>
+    </>
   )
 }
 

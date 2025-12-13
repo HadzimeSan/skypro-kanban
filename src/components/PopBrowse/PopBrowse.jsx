@@ -3,6 +3,14 @@ import Categories from '../Categories/Categories'
 import Status from '../Status/Status'
 
 function PopBrowse({ title = "Название задачи", category = "Web Design", description = "", date = "09.09.23", status = "Нужно сделать" }) {
+  const categoryClasses = {
+    "Web Design": "_orange",
+    "Research": "_green",
+    "Copywriting": "_purple"
+  }
+  
+  const categoryClass = categoryClasses[category] || "_orange"
+
   return (
     <div className="pop-browse" id="popBrowse">
       <div className="pop-browse__container">
@@ -10,8 +18,8 @@ function PopBrowse({ title = "Название задачи", category = "Web De
           <div className="pop-browse__content">
             <div className="pop-browse__top-block">
               <h3 className="pop-browse__ttl">{title}</h3>
-              <div className={`categories__theme theme-top _orange _active-category`}>
-                <p className="_orange">{category}</p>
+              <div className={`categories__theme theme-top ${categoryClass} _active-category`}>
+                <p className={categoryClass}>{category}</p>
               </div>
             </div>
             <Status activeStatus={status} />
