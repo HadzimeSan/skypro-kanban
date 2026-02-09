@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { PageWrapper, PageTitle, PageText, ButtonRow, Button } from './Pages.styled'
+import PopExit from '../components/PopExit/PopExit'
 
 function ExitPage({ setIsAuth }) {
   const navigate = useNavigate()
@@ -10,22 +10,13 @@ function ExitPage({ setIsAuth }) {
   }
 
   const handleCancel = () => {
-    navigate(-1)
+    navigate('/')
   }
 
   return (
-    <PageWrapper>
-      <PageTitle>Выход из аккаунта</PageTitle>
-      <PageText>Вы действительно хотите выйти?</PageText>
-      <ButtonRow>
-        <Button type="button" onClick={handleExit}>
-          Выйти
-        </Button>
-        <Button type="button" onClick={handleCancel}>
-          Отмена
-        </Button>
-      </ButtonRow>
-    </PageWrapper>
+    <>
+      <PopExit onExit={handleExit} onCancel={handleCancel} />
+    </>
   )
 }
 

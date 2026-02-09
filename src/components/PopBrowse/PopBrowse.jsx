@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import Calendar from '../Calendar/Calendar'
 import Categories from '../Categories/Categories'
 import Status from '../Status/Status'
 
-function PopBrowse({ title = "Название задачи", category = "Web Design", description = "", date = "09.09.23", status = "Нужно сделать" }) {
+function PopBrowse({ title = "Название задачи", category = "Web Design", description = "", date = "09.09.23", status = "Нужно сделать", onClose }) {
+  const navigate = useNavigate()
   const categoryClasses = {
     "Web Design": "_orange",
     "Research": "_green",
@@ -11,8 +13,17 @@ function PopBrowse({ title = "Название задачи", category = "Web De
   
   const categoryClass = categoryClasses[category] || "_orange"
 
+  const handleClose = (e) => {
+    e.preventDefault()
+    if (onClose) {
+      onClose()
+    } else {
+      navigate('/')
+    }
+  }
+
   return (
-    <div className="pop-browse" id="popBrowse">
+    <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>
       <div className="pop-browse__container">
         <div className="pop-browse__block">
           <div className="pop-browse__content">
@@ -38,7 +49,7 @@ function PopBrowse({ title = "Название задачи", category = "Web De
                 <button className="btn-browse__edit _btn-bor _hover03"><a href="#">Редактировать задачу</a></button>
                 <button className="btn-browse__delete _btn-bor _hover03"><a href="#">Удалить задачу</a></button>
               </div>
-              <button className="btn-browse__close _btn-bg _hover01"><a href="#">Закрыть</a></button>
+              <button className="btn-browse__close _btn-bg _hover01" onClick={handleClose}><a href="/" onClick={(e) => e.preventDefault()}>Закрыть</a></button>
             </div>
             <div className="pop-browse__btn-edit _hide">
               <div className="btn-group">

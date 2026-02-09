@@ -58,13 +58,7 @@ const GlobalStyle = createGlobalStyle`
     color: #FFFFFF;
   }
 
-  /* Popup target display */
-  .pop-user-set:target,
-  .pop-exit:target,
-  .pop-new-card:target,
-  .pop-browse:target {
-    display: block;
-  }
+  /* Popup target display - removed hash routing, now using React Router */
 
   ._active-category {
     opacity: 1 !important;

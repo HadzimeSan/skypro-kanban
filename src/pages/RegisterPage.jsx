@@ -1,21 +1,38 @@
-import { PageWrapper, PageTitle, PageText, Form, Input, Button } from './Pages.styled'
 import { Link } from 'react-router-dom'
+import {
+  AuthWrapper,
+  AuthContainer,
+  Modal,
+  ModalBlock,
+  ModalTitle,
+  ModalForm,
+  ModalInput,
+  ModalButton,
+  ModalFormGroup,
+} from './AuthPages.styled'
 
 function RegisterPage() {
   return (
-    <PageWrapper>
-      <PageTitle>Регистрация</PageTitle>
-      <PageText>Просто страница-заглушка для регистрации пользователя.</PageText>
-      <Form>
-        <Input type="text" placeholder="Имя" />
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Пароль" />
-        <Button type="button">Создать аккаунт</Button>
-      </Form>
-      <PageText>
-        Уже есть аккаунт? <Link to="/login">Войти</Link>
-      </PageText>
-    </PageWrapper>
+    <AuthWrapper>
+      <AuthContainer>
+        <Modal>
+          <ModalBlock>
+            <ModalTitle>Регистрация</ModalTitle>
+            <ModalForm>
+              <ModalInput type="text" placeholder="Имя" />
+              <ModalInput type="email" placeholder="Email" />
+              <ModalInput type="password" placeholder="Пароль" />
+              <ModalButton type="button">Создать аккаунт</ModalButton>
+            </ModalForm>
+            <ModalFormGroup>
+              <p>
+                Уже есть аккаунт? <Link to="/login">Войти</Link>
+              </p>
+            </ModalFormGroup>
+          </ModalBlock>
+        </Modal>
+      </AuthContainer>
+    </AuthWrapper>
   )
 }
 

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Container } from '../App.styled'
 import {
   HeaderStyled,
@@ -11,10 +12,22 @@ import {
 
 function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' }) {
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleUserClick = (event) => {
     event.preventDefault()
     setIsUserPopupOpen((prev) => !prev)
+  }
+
+  const handleNewCard = (event) => {
+    event.preventDefault()
+    navigate('/new-card')
+  }
+
+  const handleExit = (event) => {
+    event.preventDefault()
+    setIsUserPopupOpen(false)
+    navigate('/exit')
   }
 
   return (
@@ -22,18 +35,18 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
       <Container>
         <HeaderBlock>
           <Logo className="_show _light">
-            <a href="" target="_self">
+            <a href="/" target="_self" onClick={(e) => { e.preventDefault(); navigate('/') }}>
               <img src="/images/logo.png" alt="logo" />
             </a>
           </Logo>
           <Logo className="_dark">
-            <a href="" target="_self">
+            <a href="/" target="_self" onClick={(e) => { e.preventDefault(); navigate('/') }}>
               <img src="/images/logo_dark.png" alt="logo" />
             </a>
           </Logo>
           <Nav>
             <ButtonNew id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+              <a href="/new-card" onClick={handleNewCard}>Создать новую задачу</a>
             </ButtonNew>
             <UserLink href="#user-set-target" onClick={handleUserClick}>
               {userName}
@@ -49,8 +62,8 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
                 <p>Темная тема</p>
                 <input type="checkbox" className="checkbox" name="checkbox" />
               </div>
-              <button type="button" className="_hover03">
-                <a href="#popExit">Выйти</a>
+              <button type="button" className="_hover03" onClick={handleExit}>
+                <a href="/exit">Выйти</a>
               </button>
             </div>
           </Nav>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { getCardTheme } from '../../theme'
 import {
   CardItem,
@@ -10,8 +11,16 @@ import {
   CardDate,
 } from './Card.styled'
 
-function Card({ title, date, category }) {
+function Card({ id, title, date, category }) {
   const theme = getCardTheme(category)
+  const navigate = useNavigate()
+
+  const handleCardClick = (event) => {
+    event.preventDefault()
+    if (id) {
+      navigate(`/card/${id}`)
+    }
+  }
 
   return (
     <CardItem>
@@ -20,7 +29,7 @@ function Card({ title, date, category }) {
           <CardTheme theme={theme}>
             <p>{category}</p>
           </CardTheme>
-          <a href="#popBrowse" target="_self">
+          <a href={`/card/${id || ''}`} onClick={handleCardClick}>
             <CardButton>
               <div></div>
               <div></div>

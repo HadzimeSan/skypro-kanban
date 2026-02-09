@@ -1,13 +1,17 @@
+import { useNavigate } from 'react-router-dom'
 import PopNewCard from '../components/PopNewCard/PopNewCard'
-import { PageWrapper, PageTitle, PageText } from './Pages.styled'
 
 function NewCardPage() {
+  const navigate = useNavigate()
+
+  const handleClose = () => {
+    navigate('/')
+  }
+
   return (
-    <PageWrapper>
-      <PageTitle>Добавление новой задачи</PageTitle>
-      <PageText>Заполните форму ниже, чтобы создать новую задачу.</PageText>
-      <PopNewCard />
-    </PageWrapper>
+    <>
+      <PopNewCard onClose={handleClose} />
+    </>
   )
 }
 
