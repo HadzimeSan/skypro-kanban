@@ -2,9 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import BoardPage from './BoardPage'
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
-import CardPage from './CardPage'
-import NewCardPage from './NewCardPage'
-import ExitPage from './ExitPage'
 import NotFoundPage from './NotFoundPage'
 
 function ProtectedRoute({ isAuth, children }) {
@@ -23,7 +20,7 @@ function AppRoutes({ isAuth, setIsAuth }) {
           path="/"
           element={
             <ProtectedRoute isAuth={isAuth}>
-              <BoardPage />
+              <BoardPage setIsAuth={setIsAuth} />
             </ProtectedRoute>
           }
         />
@@ -31,7 +28,7 @@ function AppRoutes({ isAuth, setIsAuth }) {
           path="/card/:id"
           element={
             <ProtectedRoute isAuth={isAuth}>
-              <CardPage />
+              <BoardPage setIsAuth={setIsAuth} />
             </ProtectedRoute>
           }
         />
@@ -39,7 +36,7 @@ function AppRoutes({ isAuth, setIsAuth }) {
           path="/new-card"
           element={
             <ProtectedRoute isAuth={isAuth}>
-              <NewCardPage />
+              <BoardPage setIsAuth={setIsAuth} />
             </ProtectedRoute>
           }
         />
@@ -47,7 +44,7 @@ function AppRoutes({ isAuth, setIsAuth }) {
           path="/exit"
           element={
             <ProtectedRoute isAuth={isAuth}>
-              <ExitPage setIsAuth={setIsAuth} />
+              <BoardPage setIsAuth={setIsAuth} />
             </ProtectedRoute>
           }
         />

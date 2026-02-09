@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Container } from '../App.styled'
 import {
   HeaderStyled,
@@ -19,13 +19,7 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
     setIsUserPopupOpen((prev) => !prev)
   }
 
-  const handleNewCard = (event) => {
-    event.preventDefault()
-    navigate('/new-card')
-  }
-
-  const handleExit = (event) => {
-    event.preventDefault()
+  const handleExit = () => {
     setIsUserPopupOpen(false)
     navigate('/exit')
   }
@@ -35,18 +29,18 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
       <Container>
         <HeaderBlock>
           <Logo className="_show _light">
-            <a href="/" target="_self" onClick={(e) => { e.preventDefault(); navigate('/') }}>
+            <Link to="/">
               <img src="/images/logo.png" alt="logo" />
-            </a>
+            </Link>
           </Logo>
           <Logo className="_dark">
-            <a href="/" target="_self" onClick={(e) => { e.preventDefault(); navigate('/') }}>
+            <Link to="/">
               <img src="/images/logo_dark.png" alt="logo" />
-            </a>
+            </Link>
           </Logo>
           <Nav>
             <ButtonNew id="btnMainNew">
-              <a href="/new-card" onClick={handleNewCard}>Создать новую задачу</a>
+              <Link to="/new-card">Создать новую задачу</Link>
             </ButtonNew>
             <UserLink href="#user-set-target" onClick={handleUserClick}>
               {userName}
@@ -63,7 +57,7 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
                 <input type="checkbox" className="checkbox" name="checkbox" />
               </div>
               <button type="button" className="_hover03" onClick={handleExit}>
-                <a href="/exit">Выйти</a>
+                <Link to="/exit">Выйти</Link>
               </button>
             </div>
           </Nav>

@@ -49,7 +49,7 @@ function PopBrowse({ title = "Название задачи", category = "Web De
                 <button className="btn-browse__edit _btn-bor _hover03"><a href="#">Редактировать задачу</a></button>
                 <button className="btn-browse__delete _btn-bor _hover03"><a href="#">Удалить задачу</a></button>
               </div>
-              <button className="btn-browse__close _btn-bg _hover01" onClick={handleClose}><a href="/" onClick={(e) => e.preventDefault()}>Закрыть</a></button>
+              <button className="btn-browse__close _btn-bg _hover01" onClick={handleClose}>Закрыть</button>
             </div>
             <div className="pop-browse__btn-edit _hide">
               <div className="btn-group">

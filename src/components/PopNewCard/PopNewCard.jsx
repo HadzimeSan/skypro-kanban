@@ -20,7 +20,7 @@ function PopNewCard({ onClose }) {
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
             <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            <a href="/" className="pop-new-card__close" onClick={handleClose}>×</a>
+            <button className="pop-new-card__close" onClick={handleClose} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px', color: '#94A6BE' }}>×</button>
             <div className="pop-new-card__wrap">
               <form className="pop-new-card__form form-new" id="formNewCard" action="#">
                 <div className="form-new__block">
