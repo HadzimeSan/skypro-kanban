@@ -1,21 +1,42 @@
 import { useEffect, useState } from 'react'
 import Column from '../Column/Column'
-import { cardsData } from '../../../data.js'
 import { Container } from '../App.styled'
 import { MainStyled, MainBlock, MainContent } from './Main.styled'
 import Loader from '../Loader/Loader'
+import { getTasks } from '../../services/tasks'
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true)
   const [cards, setCards] = useState([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setCards(cardsData)
-      setIsLoading(false)
-    }, 1500)
+    let isMounted = true
 
-    return () => clearTimeout(timer)
+    async function loadTasks() {
+      try {
+        setIsLoading(true)
+        setError('')
+        const tasks = await getTasks()
+        if (isMounted) {
+          setCards(tasks)
+        }
+      } catch (e) {
+        if (isMounted) {
+          setError(e.message || 'Не удалось загрузить задачи')
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadTasks()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   if (isLoading) {
@@ -23,6 +44,16 @@ function Main() {
       <MainStyled>
         <Container>
           <Loader />
+        </Container>
+      </MainStyled>
+    )
+  }
+
+  if (error) {
+    return (
+      <MainStyled>
+        <Container>
+          <p>{error}</p>
         </Container>
       </MainStyled>
     )

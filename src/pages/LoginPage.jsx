@@ -11,10 +11,13 @@ import {
   ModalButton,
   ModalFormGroup,
 } from './AuthPages.styled'
+import { login } from '../services/auth'
 
 function LoginPage({ isAuth, setIsAuth }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -23,10 +26,20 @@ function LoginPage({ isAuth, setIsAuth }) {
     }
   }, [isAuth, navigate])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setIsAuth(true)
-    navigate('/', { replace: true })
+    setError('')
+    setIsSubmitting(true)
+
+    try {
+      await login({ login: email, password })
+      setIsAuth(true)
+      navigate('/', { replace: true })
+    } catch (e) {
+      setError(e.message || 'Не удалось выполнить вход')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -50,9 +63,12 @@ function LoginPage({ isAuth, setIsAuth }) {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <ModalButton type="submit">Войти</ModalButton>
+              <ModalButton type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Входим...' : 'Войти'}
+              </ModalButton>
             </ModalForm>
             <ModalFormGroup>
+              {error && <p>{error}</p>}
               <p>
                 Нужно зарегистрироваться? <Link to="/register">Регистрация</Link>
               </p>

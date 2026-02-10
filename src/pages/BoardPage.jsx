@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import Header from '../components/Header/Header'
 import Main from '../components/Main/Main'
@@ -5,18 +6,56 @@ import PopBrowse from '../components/PopBrowse/PopBrowse'
 import PopNewCard from '../components/PopNewCard/PopNewCard'
 import PopExit from '../components/PopExit/PopExit'
 import { Wrapper } from '../components/App.styled'
-import { cardsData } from '../../data.js'
+import { logout } from '../services/auth'
+import { getTaskById } from '../services/tasks'
 
 function BoardPage({ setIsAuth }) {
   const location = useLocation()
   const params = useParams()
   const navigate = useNavigate()
 
+  const [currentTask, setCurrentTask] = useState(null)
+  const [taskError, setTaskError] = useState('')
+  const [isTaskLoading, setIsTaskLoading] = useState(false)
+
   const showCardModal = location.pathname.startsWith('/card/') && params.id
   const showNewCardModal = location.pathname === '/new-card'
   const showExitModal = location.pathname === '/exit'
 
-  const card = showCardModal ? cardsData.find(c => c.id === parseInt(params.id)) : null
+  useEffect(() => {
+    if (!showCardModal || !params.id) {
+      setCurrentTask(null)
+      setTaskError('')
+      return
+    }
+
+    let isMounted = true
+
+    async function loadTask() {
+      try {
+        setIsTaskLoading(true)
+        setTaskError('')
+        const task = await getTaskById(params.id)
+        if (isMounted) {
+          setCurrentTask(task)
+        }
+      } catch (e) {
+        if (isMounted) {
+          setTaskError(e.message || 'Не удалось загрузить задачу')
+        }
+      } finally {
+        if (isMounted) {
+          setIsTaskLoading(false)
+        }
+      }
+    }
+
+    loadTask()
+
+    return () => {
+      isMounted = false
+    }
+  }, [showCardModal, params.id])
 
   const handleCloseCard = () => {
     navigate('/')
@@ -27,6 +66,7 @@ function BoardPage({ setIsAuth }) {
   }
 
   const handleExit = () => {
+    logout()
     setIsAuth(false)
     navigate('/login', { replace: true })
   }
@@ -39,13 +79,13 @@ function BoardPage({ setIsAuth }) {
     <Wrapper>
       <Header />
       <Main />
-      {showCardModal && card && (
+      {showCardModal && (currentTask || taskError) && (
         <PopBrowse
-          title={card.title || `Задача #${params.id}`}
-          category={card.topic || "Web Design"}
-          description=""
-          date={card.date || "09.09.23"}
-          status={card.status || "Нужно сделать"}
+          title={currentTask?.title || `Задача #${params.id}`}
+          category={currentTask?.topic || "Web Design"}
+          description={taskError || currentTask?.description || ""}
+          date={currentTask?.date || "09.09.23"}
+          status={currentTask?.status || "Нужно сделать"}
           onClose={handleCloseCard}
         />
       )}
