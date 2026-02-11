@@ -10,6 +10,7 @@ import {
   ModalInput,
   ModalButton,
   ModalFormGroup,
+  ErrorText,
 } from './AuthPages.styled'
 import { login } from '../services/auth'
 
@@ -68,7 +69,7 @@ function LoginPage({ isAuth, setIsAuth }) {
               </ModalButton>
             </ModalForm>
             <ModalFormGroup>
-              {error && <p>{error}</p>}
+              {error && <ErrorText>{error}</ErrorText>}
               <p>
                 Нужно зарегистрироваться? <Link to="/register">Регистрация</Link>
               </p>

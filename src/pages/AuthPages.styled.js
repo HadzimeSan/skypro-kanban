@@ -150,3 +150,12 @@ export const ModalFormGroup = styled.div`
   }
 `
 
+export const ErrorText = styled.p`
+  margin: 0 0 4px;
+  color: #f44336;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -0.14px;
+`
+

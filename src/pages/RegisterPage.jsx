@@ -10,6 +10,7 @@ import {
   ModalInput,
   ModalButton,
   ModalFormGroup,
+  ErrorText,
 } from './AuthPages.styled'
 import { register } from '../services/auth'
 
@@ -69,7 +70,7 @@ function RegisterPage() {
               </ModalButton>
             </ModalForm>
             <ModalFormGroup>
-              {error && <p>{error}</p>}
+              {error && <ErrorText>{error}</ErrorText>}
               <p>
                 Уже есть аккаунт? <Link to="/login">Войти</Link>
               </p>
