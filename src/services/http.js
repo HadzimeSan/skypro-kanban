@@ -30,10 +30,6 @@ export async function apiRequest(path = '', { method = 'GET', body, token, heade
 function buildHeaders({ hasBody, authToken, extra }) {
   const base = {}
 
-  if (hasBody) {
-    base['Content-Type'] = 'application/json'
-  }
-
   if (authToken) {
     base.Authorization = `Bearer ${authToken}`
   }

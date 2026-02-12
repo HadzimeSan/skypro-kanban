@@ -157,5 +157,6 @@ export const ErrorText = styled.p`
   font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.14px;
+  font-family: "Roboto", sans-serif;
 `
 
