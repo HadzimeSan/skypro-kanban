@@ -1,43 +1,11 @@
-import { useEffect, useState } from 'react'
 import Column from '../Column/Column'
 import { Container } from '../App.styled'
 import { MainStyled, MainBlock, MainContent } from './Main.styled'
 import Loader from '../Loader/Loader'
-import { getTasks } from '../../services/tasks'
+import { useTasks } from '../../context/TaskContext'
 
 function Main() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [cards, setCards] = useState([])
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    let isMounted = true
-
-    async function loadTasks() {
-      try {
-        setIsLoading(true)
-        setError('')
-        const tasks = await getTasks()
-        if (isMounted) {
-          setCards(tasks)
-        }
-      } catch (e) {
-        if (isMounted) {
-          setError(e.message || 'Не удалось загрузить задачи')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    loadTasks()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
+  const { tasks, isLoading, error } = useTasks()
 
   if (isLoading) {
     return (
@@ -69,7 +37,7 @@ function Main() {
 
   const columnsToRender = columnsConfig.map((column) => ({
     title: column.title,
-    cards: cards.filter((card) => card.status === column.status),
+    cards: tasks.filter((card) => card.status === column.status),
   }))
 
   return (

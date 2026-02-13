@@ -3,8 +3,11 @@ import BoardPage from './BoardPage'
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage'
 import NotFoundPage from './NotFoundPage'
+import { useAuth } from '../context/AuthContext'
 
-function ProtectedRoute({ isAuth, children }) {
+function ProtectedRoute({ children }) {
+  const { isAuth } = useAuth()
+
   if (!isAuth) {
     return <Navigate to="/login" replace />
   }
@@ -12,45 +15,45 @@ function ProtectedRoute({ isAuth, children }) {
   return children
 }
 
-function AppRoutes({ isAuth, setIsAuth }) {
+function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <ProtectedRoute isAuth={isAuth}>
-              <BoardPage setIsAuth={setIsAuth} />
+            <ProtectedRoute>
+              <BoardPage />
             </ProtectedRoute>
           }
         />
         <Route
           path="/card/:id"
           element={
-            <ProtectedRoute isAuth={isAuth}>
-              <BoardPage setIsAuth={setIsAuth} />
+            <ProtectedRoute>
+              <BoardPage />
             </ProtectedRoute>
           }
         />
         <Route
           path="/new-card"
           element={
-            <ProtectedRoute isAuth={isAuth}>
-              <BoardPage setIsAuth={setIsAuth} />
+            <ProtectedRoute>
+              <BoardPage />
             </ProtectedRoute>
           }
         />
         <Route
           path="/exit"
           element={
-            <ProtectedRoute isAuth={isAuth}>
-              <BoardPage setIsAuth={setIsAuth} />
+            <ProtectedRoute>
+              <BoardPage />
             </ProtectedRoute>
           }
         />
         <Route
           path="/login"
-          element={<LoginPage isAuth={isAuth} setIsAuth={setIsAuth} />}
+          element={<LoginPage />}
         />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />

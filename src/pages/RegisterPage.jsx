@@ -12,7 +12,7 @@ import {
   ModalFormGroup,
   ErrorText,
 } from './AuthPages.styled'
-import { register } from '../services/auth'
+import { useAuth } from '../context/AuthContext'
 
 function RegisterPage() {
   const [name, setName] = useState('')
@@ -21,6 +21,7 @@ function RegisterPage() {
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
+  const { register } = useAuth()
 
   const handleSubmit = async (event) => {
     event.preventDefault()

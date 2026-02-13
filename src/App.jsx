@@ -1,15 +1,17 @@
-import { useState } from 'react'
 import GlobalStyle from './GlobalStyles'
 import AppRoutes from './pages/AppRoutes'
-import { getStoredToken } from './services/auth'
+import { AuthProvider } from './context/AuthContext'
+import { TasksProvider } from './context/TaskContext'
 
 function App() {
-  const [isAuth, setIsAuth] = useState(() => Boolean(getStoredToken()))
-
   return (
     <>
       <GlobalStyle />
-      <AppRoutes isAuth={isAuth} setIsAuth={setIsAuth} />
+      <AuthProvider>
+        <TasksProvider>
+          <AppRoutes />
+        </TasksProvider>
+      </AuthProvider>
     </>
   )
 }

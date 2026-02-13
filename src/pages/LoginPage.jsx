@@ -12,14 +12,15 @@ import {
   ModalFormGroup,
   ErrorText,
 } from './AuthPages.styled'
-import { login } from '../services/auth'
+import { useAuth } from '../context/AuthContext'
 
-function LoginPage({ isAuth, setIsAuth }) {
+function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
+  const { isAuth, login } = useAuth()
 
   useEffect(() => {
     if (isAuth) {
@@ -34,7 +35,6 @@ function LoginPage({ isAuth, setIsAuth }) {
 
     try {
       await login({ login: email, password })
-      setIsAuth(true)
       navigate('/', { replace: true })
     } catch (e) {
       setError(e.message || 'Не удалось выполнить вход')
