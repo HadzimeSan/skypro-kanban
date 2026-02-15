@@ -9,10 +9,15 @@ import {
   ButtonNew,
   UserLink,
 } from './Header.styled'
+import { useAuth } from '../../context/AuthContext'
 
-function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' }) {
+function Header() {
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false)
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
+
+  const userName = user?.name || 'Пользователь'
+  const userEmail = user?.login || ''
 
   const handleUserClick = (event) => {
     event.preventDefault()

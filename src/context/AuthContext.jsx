@@ -1,15 +1,56 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { login as apiLogin, register as apiRegister, logout as apiLogout, getStoredToken } from '../services/auth'
 
 const AuthContext = createContext(null)
 
+const USER_STORAGE_KEY = 'kanbanUser'
+
+function getStoredUser() {
+  try {
+    const stored = localStorage.getItem(USER_STORAGE_KEY)
+    return stored ? JSON.parse(stored) : null
+  } catch {
+    return null
+  }
+}
+
+function saveUser(user) {
+  try {
+    if (user) {
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user))
+    } else {
+      localStorage.removeItem(USER_STORAGE_KEY)
+    }
+  } catch {
+    // ignore storage errors
+  }
+}
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(() => {
+    const token = getStoredToken()
+    if (token) {
+      return getStoredUser()
+    }
+    return null
+  })
   const [isAuth, setIsAuth] = useState(() => Boolean(getStoredToken()))
+
+  useEffect(() => {
+    const token = getStoredToken()
+    if (token && !user) {
+      const storedUser = getStoredUser()
+      if (storedUser) {
+        setUser(storedUser)
+        setIsAuth(true)
+      }
+    }
+  }, [])
 
   const login = async ({ login, password }) => {
     const loggedInUser = await apiLogin({ login, password })
     setUser(loggedInUser)
+    saveUser(loggedInUser)
     setIsAuth(true)
     return loggedInUser
   }
@@ -22,6 +63,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     apiLogout()
     setUser(null)
+    saveUser(null)
     setIsAuth(false)
   }
 

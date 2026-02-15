@@ -1,10 +1,30 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Calendar from '../Calendar/Calendar'
 import Categories from '../Categories/Categories'
 import Status from '../Status/Status'
+import { useTasks } from '../../context/TaskContext'
 
-function PopBrowse({ title = "Название задачи", category = "Web Design", description = "", date = "09.09.23", status = "Нужно сделать", onClose }) {
+function PopBrowse({ id, title: initialTitle = "Название задачи", category: initialCategory = "Web Design", description: initialDescription = "", date: initialDate = "09.09.23", status: initialStatus = "Нужно сделать", onClose }) {
   const navigate = useNavigate()
+  const { updateTask, deleteTask, loadTasks } = useTasks()
+  const [isEditing, setIsEditing] = useState(false)
+  const [title, setTitle] = useState(initialTitle)
+  const [description, setDescription] = useState(initialDescription)
+  const [category, setCategory] = useState(initialCategory)
+  const [date, setDate] = useState(initialDate)
+  const [status, setStatus] = useState(initialStatus)
+  const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    setTitle(initialTitle)
+    setDescription(initialDescription)
+    setCategory(initialCategory)
+    setDate(initialDate)
+    setStatus(initialStatus)
+  }, [initialTitle, initialDescription, initialCategory, initialDate, initialStatus])
+
   const categoryClasses = {
     "Web Design": "_orange",
     "Research": "_green",
@@ -22,42 +42,167 @@ function PopBrowse({ title = "Название задачи", category = "Web De
     }
   }
 
+  const handleEdit = (e) => {
+    e.preventDefault()
+    setIsEditing(true)
+  }
+
+  const handleCancel = (e) => {
+    e.preventDefault()
+    setTitle(initialTitle)
+    setDescription(initialDescription)
+    setCategory(initialCategory)
+    setDate(initialDate)
+    setStatus(initialStatus)
+    setError('')
+    setIsEditing(false)
+  }
+
+  const handleSave = async (e) => {
+    e.preventDefault()
+    setError('')
+
+    if (!title.trim()) {
+      setError('Название задачи обязательно')
+      return
+    }
+
+    if (!id) {
+      setError('ID задачи не найден')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await updateTask(id, {
+        title: title.trim(),
+        description: description.trim(),
+        topic: category || 'Research',
+        status: status || 'Без статуса',
+        date: date || new Date().toISOString(),
+      })
+      await loadTasks()
+      setIsEditing(false)
+    } catch (e) {
+      setError(e.message || 'Не удалось обновить задачу')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleDelete = async (e) => {
+    e.preventDefault()
+    
+    if (!id) {
+      setError('ID задачи не найден')
+      return
+    }
+
+    if (!window.confirm('Вы уверены, что хотите удалить эту задачу?')) {
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await deleteTask(id)
+      await loadTasks()
+      if (onClose) {
+        onClose()
+      } else {
+        navigate('/')
+      }
+    } catch (e) {
+      setError(e.message || 'Не удалось удалить задачу')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleCategoryClick = (newCategory) => {
+    setCategory(newCategory)
+  }
+
+  const handleStatusChange = (newStatus) => {
+    setStatus(newStatus)
+  }
+
   return (
     <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>
       <div className="pop-browse__container">
         <div className="pop-browse__block">
           <div className="pop-browse__content">
+            {error && <p style={{ color: '#f44336', marginBottom: '10px', fontSize: '14px' }}>{error}</p>}
             <div className="pop-browse__top-block">
-              <h3 className="pop-browse__ttl">{title}</h3>
-              <div className={`categories__theme theme-top ${categoryClass} _active-category`}>
-                <p className={categoryClass}>{category}</p>
-              </div>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="pop-browse__ttl"
+                  style={{ width: '100%', padding: '8px', border: '1px solid #D4DBE5', borderRadius: '4px' }}
+                />
+              ) : (
+                <h3 className="pop-browse__ttl">{title}</h3>
+              )}
+              {!isEditing && (
+                <div className={`categories__theme theme-top ${categoryClass} _active-category`}>
+                  <p className={categoryClass}>{category}</p>
+                </div>
+              )}
             </div>
-            <Status activeStatus={status} />
+            {isEditing ? (
+              <Status activeStatus={status} onStatusChange={handleStatusChange} />
+            ) : (
+              <Status activeStatus={status} />
+            )}
             <div className="pop-browse__wrap">
               <form className="pop-browse__form form-browse" id="formBrowseCard" action="#">
                 <div className="form-browse__block">
                   <label htmlFor="textArea01" className="subttl">Описание задачи</label>
-                  <textarea className="form-browse__area" name="text" id="textArea01" readOnly placeholder="Введите описание задачи...">{description}</textarea>
+                  <textarea
+                    className="form-browse__area"
+                    name="text"
+                    id="textArea01"
+                    readOnly={!isEditing}
+                    placeholder="Введите описание задачи..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
                 </div>
               </form>
-              <Calendar mode="browse" selectedDate={date} />
+              {isEditing ? (
+                <Calendar mode="create" selectedDate={date} onDateChange={setDate} />
+              ) : (
+                <Calendar mode="browse" selectedDate={date} />
+              )}
             </div>
-            <Categories mode="display" activeCategory={category} />
-            <div className="pop-browse__btn-browse ">
+            {isEditing ? (
+              <Categories mode="select" activeCategory={category} onCategoryClick={handleCategoryClick} />
+            ) : (
+              <Categories mode="display" activeCategory={category} />
+            )}
+            <div className="pop-browse__btn-browse" style={{ display: isEditing ? 'none' : 'block' }}>
               <div className="btn-group">
-                <button className="btn-browse__edit _btn-bor _hover03"><a href="#">Редактировать задачу</a></button>
-                <button className="btn-browse__delete _btn-bor _hover03"><a href="#">Удалить задачу</a></button>
+                <button className="btn-browse__edit _btn-bor _hover03" onClick={handleEdit}>Редактировать задачу</button>
+                <button className="btn-browse__delete _btn-bor _hover03" onClick={handleDelete} disabled={isSubmitting}>
+                  {isSubmitting ? 'Удаление...' : 'Удалить задачу'}
+                </button>
               </div>
               <button className="btn-browse__close _btn-bg _hover01" onClick={handleClose}>Закрыть</button>
             </div>
-            <div className="pop-browse__btn-edit _hide">
+            <div className="pop-browse__btn-edit" style={{ display: isEditing ? 'block' : 'none' }}>
               <div className="btn-group">
-                <button className="btn-edit__edit _btn-bg _hover01"><a href="#">Сохранить</a></button>
-                <button className="btn-edit__edit _btn-bor _hover03"><a href="#">Отменить</a></button>
-                <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete"><a href="#">Удалить задачу</a></button>
+                <button className="btn-edit__edit _btn-bg _hover01" onClick={handleSave} disabled={isSubmitting}>
+                  {isSubmitting ? 'Сохранение...' : 'Сохранить'}
+                </button>
+                <button className="btn-edit__edit _btn-bor _hover03" onClick={handleCancel} disabled={isSubmitting}>Отменить</button>
+                <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete" onClick={handleDelete} disabled={isSubmitting}>
+                  {isSubmitting ? 'Удаление...' : 'Удалить задачу'}
+                </button>
               </div>
-              <button className="btn-edit__close _btn-bg _hover01"><a href="#">Закрыть</a></button>
+              <button className="btn-edit__close _btn-bg _hover01" onClick={handleClose} disabled={isSubmitting}>Закрыть</button>
             </div>
           </div>
         </div>

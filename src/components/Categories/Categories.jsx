@@ -1,8 +1,14 @@
-function Categories({ categories = ["Web Design", "Research", "Copywriting"], activeCategory = "Web Design", mode = "select" }) {
+function Categories({ categories = ["Web Design", "Research", "Copywriting"], activeCategory = "Web Design", mode = "select", onCategoryClick }) {
   const categoryClasses = {
     "Web Design": "_orange",
     "Research": "_green",
     "Copywriting": "_purple"
+  }
+
+  const handleCategoryClick = (category) => {
+    if (onCategoryClick && mode === "select") {
+      onCategoryClick(category)
+    }
   }
 
   return (
@@ -11,7 +17,12 @@ function Categories({ categories = ["Web Design", "Research", "Copywriting"], ac
       <div className="categories__themes">
         {mode === "select" ? (
           categories.map((category) => (
-            <div key={category} className={`categories__theme ${categoryClasses[category]} ${activeCategory === category ? "_active-category" : ""}`}>
+            <div
+              key={category}
+              className={`categories__theme ${categoryClasses[category]} ${activeCategory === category ? "_active-category" : ""}`}
+              onClick={() => handleCategoryClick(category)}
+              style={{ cursor: 'pointer' }}
+            >
               <p className={categoryClasses[category]}>{category}</p>
             </div>
           ))

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { getTasks, createTask, updateTask, deleteTask } from '../services/tasks'
+import { getTasks, createTask, updateTask, deleteTask, getTaskById as apiGetTaskById } from '../services/tasks'
+import { getStoredToken } from '../services/auth'
 
 const TaskContext = createContext(null)
 
@@ -9,6 +10,11 @@ export function TasksProvider({ children }) {
   const [error, setError] = useState('')
 
   const loadTasks = async () => {
+    const token = getStoredToken()
+    if (!token) {
+      return
+    }
+
     try {
       setIsLoading(true)
       setError('')
@@ -22,7 +28,10 @@ export function TasksProvider({ children }) {
   }
 
   useEffect(() => {
-    loadTasks()
+    const token = getStoredToken()
+    if (token) {
+      loadTasks()
+    }
   }, [])
 
   const handleCreateTask = async (task) => {
@@ -54,6 +63,25 @@ export function TasksProvider({ children }) {
 
   const getTaskByIdFromState = (id) => tasks.find((task) => String(task.id) === String(id))
 
+  const fetchTaskById = async (id) => {
+    try {
+      const task = await apiGetTaskById(id)
+      // Обновляем задачу в списке, если она там есть
+      setTasks((prevTasks) => {
+        const existingIndex = prevTasks.findIndex((t) => String(t.id) === String(id))
+        if (existingIndex >= 0) {
+          const updated = [...prevTasks]
+          updated[existingIndex] = task
+          return updated
+        }
+        return prevTasks
+      })
+      return task
+    } catch (e) {
+      throw e
+    }
+  }
+
   const value = {
     tasks,
     isLoading,
@@ -63,6 +91,7 @@ export function TasksProvider({ children }) {
     updateTask: handleUpdateTask,
     deleteTask: handleDeleteTask,
     getTaskById: getTaskByIdFromState,
+    fetchTaskById,
   }
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>

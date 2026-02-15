@@ -1,4 +1,4 @@
-function Calendar({ selectedDate, mode = "create" }) {
+function Calendar({ selectedDate, mode = "create", onDateChange }) {
   return (
     <div className="pop-new-card__calendar calendar">
       <p className="calendar__ttl subttl">Даты</p>
@@ -67,10 +67,29 @@ function Calendar({ selectedDate, mode = "create" }) {
           </div>
         </div>
         
-        <input type="hidden" id="datepick_value" value={selectedDate || "08.09.2023"} />
+        {mode === "create" && onDateChange ? (
+          <input
+            type="date"
+            value={selectedDate ? new Date(selectedDate).toISOString().split('T')[0] : ''}
+            onChange={(e) => {
+              const dateValue = e.target.value
+              if (dateValue) {
+                onDateChange(new Date(dateValue).toISOString())
+              }
+            }}
+            style={{ marginTop: '10px', padding: '8px', border: '1px solid #D4DBE5', borderRadius: '4px', width: '100%' }}
+          />
+        ) : (
+          <input type="hidden" id="datepick_value" value={selectedDate || "08.09.2023"} />
+        )}
         <div className="calendar__period">
           {mode === "create" ? (
-            <p className="calendar__p date-end">Выберите срок исполнения <span className="date-control"></span>.</p>
+            <p className="calendar__p date-end">
+              Выберите срок исполнения{' '}
+              <span className="date-control">
+                {selectedDate ? new Date(selectedDate).toLocaleDateString('ru-RU') : ''}
+              </span>.
+            </p>
           ) : (
             <p className="calendar__p date-end">Срок исполнения: <span className="date-control">{selectedDate || "09.09.23"}</span></p>
           )}

@@ -1,4 +1,5 @@
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import Header from '../components/Header/Header'
 import Main from '../components/Main/Main'
 import PopBrowse from '../components/PopBrowse/PopBrowse'
@@ -13,13 +14,37 @@ function BoardPage() {
   const params = useParams()
   const navigate = useNavigate()
   const { logout } = useAuth()
-  const { getTaskById } = useTasks()
+  const { getTaskById, fetchTaskById } = useTasks()
+  const [currentTask, setCurrentTask] = useState(null)
+  const [isLoadingTask, setIsLoadingTask] = useState(false)
 
   const showCardModal = location.pathname.startsWith('/card/') && params.id
   const showNewCardModal = location.pathname === '/new-card'
   const showExitModal = location.pathname === '/exit'
 
-  const currentTask = showCardModal && params.id ? getTaskById(params.id) : null
+  useEffect(() => {
+    if (showCardModal && params.id) {
+      const taskFromState = getTaskById(params.id)
+      if (taskFromState) {
+        setCurrentTask(taskFromState)
+      } else {
+        setIsLoadingTask(true)
+        fetchTaskById(params.id)
+          .then((task) => {
+            setCurrentTask(task)
+          })
+          .catch((e) => {
+            console.error('Ошибка загрузки задачи:', e)
+            setCurrentTask(null)
+          })
+          .finally(() => {
+            setIsLoadingTask(false)
+          })
+      }
+    } else {
+      setCurrentTask(null)
+    }
+  }, [showCardModal, params.id, getTaskById, fetchTaskById])
 
   const handleCloseCard = () => {
     navigate('/')
@@ -42,9 +67,10 @@ function BoardPage() {
     <Wrapper>
       <Header />
       <Main />
-      {showCardModal && currentTask && (
+      {showCardModal && (currentTask || isLoadingTask) && (
         <PopBrowse
-          title={currentTask?.title || `Задача #${params.id}`}
+          id={params.id}
+          title={currentTask?.title || (isLoadingTask ? 'Загрузка...' : `Задача #${params.id}`)}
           category={currentTask?.topic || "Web Design"}
           description={currentTask?.description || ""}
           date={currentTask?.date || "09.09.23"}
