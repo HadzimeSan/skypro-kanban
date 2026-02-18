@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import {
   AuthWrapper,
   AuthContainer,
@@ -31,13 +32,24 @@ function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setError('')
+
+     const trimmedEmail = email.trim()
+     const trimmedPassword = password.trim()
+
+     if (!trimmedEmail || !trimmedPassword) {
+       setError('Email и пароль не могут быть пустыми или состоять только из пробелов')
+       return
+     }
+
     setIsSubmitting(true)
 
     try {
-      await login({ login: email, password })
+      await login({ login: trimmedEmail, password: trimmedPassword })
+      toast.success('Вы успешно вошли в аккаунт')
       navigate('/', { replace: true })
     } catch (e) {
       setError(e.message || 'Не удалось выполнить вход')
+      toast.error(e.message || 'Не удалось выполнить вход')
     } finally {
       setIsSubmitting(false)
     }

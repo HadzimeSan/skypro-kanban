@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import Calendar from '../Calendar/Calendar'
 import Categories from '../Categories/Categories'
 import { useTasks } from '../../context/TaskContext'
@@ -32,7 +33,10 @@ function PopNewCard({ onClose }) {
     e.preventDefault()
     setError('')
 
-    if (!title.trim()) {
+    const trimmedTitle = title.trim()
+    const trimmedDescription = description.trim()
+
+    if (!trimmedTitle) {
       setError('Название задачи обязательно')
       return
     }
@@ -41,8 +45,8 @@ function PopNewCard({ onClose }) {
 
     try {
       const taskData = {
-        title: title.trim(),
-        description: description.trim(),
+        title: trimmedTitle,
+        description: trimmedDescription,
         topic: topic || 'Research',
         status: status || 'Без статуса',
         date: date || new Date().toISOString(),
@@ -50,6 +54,7 @@ function PopNewCard({ onClose }) {
 
       await createTask(taskData)
       await loadTasks()
+      toast.success('Задача успешно создана')
       if (onClose) {
         onClose()
       } else {
@@ -57,6 +62,7 @@ function PopNewCard({ onClose }) {
       }
     } catch (e) {
       setError(e.message || 'Не удалось создать задачу')
+      toast.error(e.message || 'Не удалось создать задачу')
     } finally {
       setIsSubmitting(false)
     }

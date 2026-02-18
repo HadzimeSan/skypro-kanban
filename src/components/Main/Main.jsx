@@ -27,6 +27,20 @@ function Main() {
     )
   }
 
+  if (!tasks || tasks.length === 0) {
+    return (
+      <MainStyled>
+        <Container>
+          <MainBlock>
+            <MainContent style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <p style={{ fontSize: '18px', color: '#94a6be' }}>Новых задач нет</p>
+            </MainContent>
+          </MainBlock>
+        </Container>
+      </MainStyled>
+    )
+  }
+
   const columnsConfig = [
     { title: 'Без статуса', status: 'Без статуса' },
     { title: 'Нужно сделать', status: 'Нужно сделать' },

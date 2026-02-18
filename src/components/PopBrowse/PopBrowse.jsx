@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import Calendar from '../Calendar/Calendar'
 import Categories from '../Categories/Categories'
 import Status from '../Status/Status'
@@ -70,7 +71,10 @@ function PopBrowse({
     e.preventDefault()
     setError('')
 
-    if (!title.trim()) {
+    const trimmedTitle = title.trim()
+    const trimmedDescription = description.trim()
+
+    if (!trimmedTitle) {
       setError('Название задачи обязательно')
       return
     }
@@ -84,16 +88,18 @@ function PopBrowse({
 
     try {
       await updateTask(id, {
-        title: title.trim(),
-        description: description.trim(),
+        title: trimmedTitle,
+        description: trimmedDescription,
         topic: category || 'Research',
         status: status || 'Без статуса',
         date: date || new Date().toISOString(),
       })
       await loadTasks()
       setIsEditing(false)
+      toast.success('Изменения успешно сохранены')
     } catch (e) {
       setError(e.message || 'Не удалось обновить задачу')
+      toast.error(e.message || 'Не удалось обновить задачу')
     } finally {
       setIsSubmitting(false)
     }
@@ -123,6 +129,7 @@ function PopBrowse({
       }
     } catch (e) {
       setError(e.message || 'Не удалось удалить задачу')
+      toast.error(e.message || 'Не удалось удалить задачу')
     } finally {
       setIsSubmitting(false)
     }

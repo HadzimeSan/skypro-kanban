@@ -34,7 +34,8 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: #000000;
+    background-color: ${({ theme }) => theme.bodyBg || '#EAEEF6'};
+    color: ${({ theme }) => theme.textColor || '#000000'};
   }
 
   /* Hover effects for popups */
@@ -172,7 +173,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 21px;
     font-weight: 500;
     letter-spacing: -0.14px;
-    color: #FFFFFF;
+    color: #565EEF;
   }
   .pop-exit__exit-no a {
     width: 100%;

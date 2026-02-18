@@ -1,19 +1,30 @@
 const API_BASE_URL = 'https://wedev-api.sky.pro/api'
 
-export async function apiRequest(path = '', { method = 'GET', body, token, headers = {} } = {}) {
+export async function apiRequest(
+  path = '',
+  { method = 'GET', body, token, headers = {} } = {}
+) {
   const authToken = token ?? getToken()
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method,
-    headers: buildHeaders({ hasBody: Boolean(body), authToken, extra: headers }),
-    body: body ? JSON.stringify(body) : undefined,
-  })
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      method,
+      headers: buildHeaders({ hasBody: Boolean(body), authToken, extra: headers }),
+      body: body ? JSON.stringify(body) : undefined,
+    })
+  } catch (e) {
+    // Сеть недоступна / сервер не отвечает
+    const error = new Error('Сервер недоступен, попробуйте позже')
+    error.cause = e
+    throw error
+  }
 
   let data = null
   try {
     data = await response.json()
   } catch (e) {
-    // ignore json parse errors for empty bodies
+    // игнорируем ошибки парсинга для пустых тел ответов
   }
 
   if (!response.ok) {

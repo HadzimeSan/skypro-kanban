@@ -6,16 +6,22 @@ export const PageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #eaeef6;
+  font-family: 'Roboto', sans-serif;
+  color: #000000;
 `
 
 export const PageTitle = styled.h1`
   font-size: 32px;
-  margin-bottom: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.6px;
 `
 
 export const PageText = styled.p`
   font-size: 16px;
   margin-bottom: 16px;
+  color: #94a6be;
 `
 
 export const Form = styled.form`

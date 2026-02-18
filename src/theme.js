@@ -25,3 +25,16 @@ export const getCardTheme = (topic) => {
   }
   return cardThemes[themeMap[topic]] || cardThemes.orange
 }
+
+export const lightTheme = {
+  mode: 'light',
+  bodyBg: '#EAEEF6',
+  textColor: '#000000',
+}
+
+export const darkTheme = {
+  mode: 'dark',
+  bodyBg: '#1E2533',
+  textColor: '#FFFFFF',
+}
+

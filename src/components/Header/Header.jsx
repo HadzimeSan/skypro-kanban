@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Container } from '../App.styled'
 import { HeaderStyled, HeaderBlock, Logo, Nav, ButtonNew, UserLink } from './Header.styled'
 import { useAuth } from '../../context/AuthContext'
+import { useThemeMode } from '../../context/ThemeContext'
 
 function Header() {
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { isDark, toggleTheme } = useThemeMode()
 
   const userName = user?.name || 'Пользователь'
   const userEmail = user?.login || ''
@@ -52,7 +54,13 @@ function Header() {
               <p className="pop-user-set__mail">{userEmail}</p>
               <div className="pop-user-set__theme">
                 <p>Темная тема</p>
-                <input type="checkbox" className="checkbox" name="checkbox" />
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  name="checkbox"
+                  checked={isDark}
+                  onChange={toggleTheme}
+                />
               </div>
               <button type="button" className="_hover03" onClick={handleExit}>
                 Выйти
