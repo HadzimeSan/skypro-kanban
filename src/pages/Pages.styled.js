@@ -50,5 +50,3 @@ export const Button = styled.button`
     background-color: #33399b;
   }
 `
-
-

@@ -52,4 +52,3 @@ export async function deleteTask(id) {
     method: 'DELETE',
   })
 }
-

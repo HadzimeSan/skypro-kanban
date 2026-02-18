@@ -22,8 +22,12 @@ function PopExit({ onExit, onCancel }) {
           </div>
           <form className="pop-exit__form" id="formExit" action="#">
             <div className="pop-exit__form-group">
-              <button className="pop-exit__exit-yes _hover01" id="exitYes" onClick={handleExit}>Да, выйти</button>
-              <button className="pop-exit__exit-no _hover03" id="exitNo" onClick={handleCancel}>Нет, остаться</button>
+              <button className="pop-exit__exit-yes _hover01" id="exitYes" onClick={handleExit}>
+                Да, выйти
+              </button>
+              <button className="pop-exit__exit-no _hover03" id="exitNo" onClick={handleCancel}>
+                Нет, остаться
+              </button>
             </div>
           </form>
         </div>
@@ -33,4 +37,3 @@ function PopExit({ onExit, onCancel }) {
 }
 
 export default PopExit
-

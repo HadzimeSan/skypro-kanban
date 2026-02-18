@@ -46,11 +46,7 @@ function Main() {
         <MainBlock>
           <MainContent>
             {columnsToRender.map((column) => (
-              <Column
-                key={column.title}
-                title={column.title}
-                cards={column.cards}
-              />
+              <Column key={column.title} title={column.title} cards={column.cards} />
             ))}
           </MainContent>
         </MainBlock>
@@ -60,4 +56,3 @@ function Main() {
 }
 
 export default Main
-

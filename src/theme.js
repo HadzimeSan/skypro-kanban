@@ -25,4 +25,3 @@ export const getCardTheme = (topic) => {
   }
   return cardThemes[themeMap[topic]] || cardThemes.orange
 }
-

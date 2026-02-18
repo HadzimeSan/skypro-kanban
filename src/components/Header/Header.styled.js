@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const HeaderStyled = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `
 
 export const HeaderBlock = styled.div`
@@ -36,8 +36,8 @@ export const ButtonNew = styled.button`
   width: 178px;
   height: 30px;
   border-radius: 4px;
-  background-color: #565EEF;
-  color: #FFFFFF;
+  background-color: #565eef;
+  color: #ffffff;
   border: none;
   font-size: 14px;
   line-height: 1;
@@ -51,7 +51,7 @@ export const ButtonNew = styled.button`
   }
 
   a {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `
 
@@ -63,7 +63,7 @@ export const UserLink = styled.a`
   justify-content: center;
   font-size: 14px;
   line-height: 20px;
-  color: #565EEF;
+  color: #565eef;
   text-decoration: none;
   cursor: pointer;
 
@@ -73,8 +73,8 @@ export const UserLink = styled.a`
     width: 6px;
     height: 6px;
     border-radius: 1px;
-    border-left: 1.9px solid #565EEF;
-    border-bottom: 1.9px solid #565EEF;
+    border-left: 1.9px solid #565eef;
+    border-bottom: 1.9px solid #565eef;
     transform: rotate(-45deg);
     margin: -6px 0 0 5px;
     padding: 0;
@@ -89,4 +89,3 @@ export const UserLink = styled.a`
     }
   }
 `
-

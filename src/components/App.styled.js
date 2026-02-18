@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   width: 100vw;
   min-height: 100vh;
   overflow: hidden;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
 `
 
 export const Container = styled.div`
@@ -19,4 +19,3 @@ export const Container = styled.div`
     padding: 0 16px;
   }
 `
-

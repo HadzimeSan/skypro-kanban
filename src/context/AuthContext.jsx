@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { login as apiLogin, register as apiRegister, logout as apiLogout, getStoredToken } from '../services/auth'
+import {
+  login as apiLogin,
+  register as apiRegister,
+  logout as apiLogout,
+  getStoredToken,
+} from '../services/auth'
 
 const AuthContext = createContext(null)
 
@@ -87,5 +92,3 @@ export function useAuth() {
 
   return context
 }
-
-

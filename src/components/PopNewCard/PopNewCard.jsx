@@ -68,12 +68,32 @@ function PopNewCard({ onClose }) {
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
             <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            <button className="pop-new-card__close" onClick={handleClose} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px', color: '#94A6BE' }}>×</button>
-            {error && <p style={{ color: '#f44336', marginBottom: '10px', fontSize: '14px' }}>{error}</p>}
+            <button
+              className="pop-new-card__close"
+              onClick={handleClose}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '24px',
+                color: '#94A6BE',
+              }}
+            >
+              ×
+            </button>
+            {error && (
+              <p style={{ color: '#f44336', marginBottom: '10px', fontSize: '14px' }}>{error}</p>
+            )}
             <div className="pop-new-card__wrap">
-              <form className="pop-new-card__form form-new" id="formNewCard" onSubmit={handleSubmit}>
+              <form
+                className="pop-new-card__form form-new"
+                id="formNewCard"
+                onSubmit={handleSubmit}
+              >
                 <div className="form-new__block">
-                  <label htmlFor="formTitle" className="subttl">Название задачи</label>
+                  <label htmlFor="formTitle" className="subttl">
+                    Название задачи
+                  </label>
                   <input
                     className="form-new__input"
                     type="text"
@@ -87,7 +107,9 @@ function PopNewCard({ onClose }) {
                   />
                 </div>
                 <div className="form-new__block">
-                  <label htmlFor="textArea" className="subttl">Описание задачи</label>
+                  <label htmlFor="textArea" className="subttl">
+                    Описание задачи
+                  </label>
                   <textarea
                     className="form-new__area"
                     name="text"
@@ -100,7 +122,11 @@ function PopNewCard({ onClose }) {
               </form>
               <Calendar mode="create" selectedDate={date} onDateChange={setDate} />
             </div>
-            <Categories mode="select" activeCategory={topic} onCategoryClick={handleCategoryClick} />
+            <Categories
+              mode="select"
+              activeCategory={topic}
+              onCategoryClick={handleCategoryClick}
+            />
             <button
               className="form-new__create _hover01"
               id="btnCreate"
@@ -117,4 +143,3 @@ function PopNewCard({ onClose }) {
 }
 
 export default PopNewCard
-

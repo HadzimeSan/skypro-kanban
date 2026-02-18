@@ -5,7 +5,15 @@ import Categories from '../Categories/Categories'
 import Status from '../Status/Status'
 import { useTasks } from '../../context/TaskContext'
 
-function PopBrowse({ id, title: initialTitle = "Название задачи", category: initialCategory = "Web Design", description: initialDescription = "", date: initialDate = "09.09.23", status: initialStatus = "Нужно сделать", onClose }) {
+function PopBrowse({
+  id,
+  title: initialTitle = 'Название задачи',
+  category: initialCategory = 'Web Design',
+  description: initialDescription = '',
+  date: initialDate = '09.09.23',
+  status: initialStatus = 'Нужно сделать',
+  onClose,
+}) {
   const navigate = useNavigate()
   const { updateTask, deleteTask, loadTasks } = useTasks()
   const [isEditing, setIsEditing] = useState(false)
@@ -26,12 +34,12 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
   }, [initialTitle, initialDescription, initialCategory, initialDate, initialStatus])
 
   const categoryClasses = {
-    "Web Design": "_orange",
-    "Research": "_green",
-    "Copywriting": "_purple"
+    'Web Design': '_orange',
+    Research: '_green',
+    Copywriting: '_purple',
   }
-  
-  const categoryClass = categoryClasses[category] || "_orange"
+
+  const categoryClass = categoryClasses[category] || '_orange'
 
   const handleClose = (e) => {
     e.preventDefault()
@@ -93,7 +101,7 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    
+
     if (!id) {
       setError('ID задачи не найден')
       return
@@ -133,7 +141,9 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
       <div className="pop-browse__container">
         <div className="pop-browse__block">
           <div className="pop-browse__content">
-            {error && <p style={{ color: '#f44336', marginBottom: '10px', fontSize: '14px' }}>{error}</p>}
+            {error && (
+              <p style={{ color: '#f44336', marginBottom: '10px', fontSize: '14px' }}>{error}</p>
+            )}
             <div className="pop-browse__top-block">
               {isEditing ? (
                 <input
@@ -141,7 +151,12 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="pop-browse__ttl"
-                  style={{ width: '100%', padding: '8px', border: '1px solid #D4DBE5', borderRadius: '4px' }}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    border: '1px solid #D4DBE5',
+                    borderRadius: '4px',
+                  }}
                 />
               ) : (
                 <h3 className="pop-browse__ttl">{title}</h3>
@@ -160,7 +175,9 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
             <div className="pop-browse__wrap">
               <form className="pop-browse__form form-browse" id="formBrowseCard" action="#">
                 <div className="form-browse__block">
-                  <label htmlFor="textArea01" className="subttl">Описание задачи</label>
+                  <label htmlFor="textArea01" className="subttl">
+                    Описание задачи
+                  </label>
                   <textarea
                     className="form-browse__area"
                     name="text"
@@ -179,30 +196,66 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
               )}
             </div>
             {isEditing ? (
-              <Categories mode="select" activeCategory={category} onCategoryClick={handleCategoryClick} />
+              <Categories
+                mode="select"
+                activeCategory={category}
+                onCategoryClick={handleCategoryClick}
+              />
             ) : (
               <Categories mode="display" activeCategory={category} />
             )}
-            <div className="pop-browse__btn-browse" style={{ display: isEditing ? 'none' : 'block' }}>
+            <div
+              className="pop-browse__btn-browse"
+              style={{ display: isEditing ? 'none' : 'block' }}
+            >
               <div className="btn-group">
-                <button className="btn-browse__edit _btn-bor _hover03" onClick={handleEdit}>Редактировать задачу</button>
-                <button className="btn-browse__delete _btn-bor _hover03" onClick={handleDelete} disabled={isSubmitting}>
+                <button className="btn-browse__edit _btn-bor _hover03" onClick={handleEdit}>
+                  Редактировать задачу
+                </button>
+                <button
+                  className="btn-browse__delete _btn-bor _hover03"
+                  onClick={handleDelete}
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? 'Удаление...' : 'Удалить задачу'}
                 </button>
               </div>
-              <button className="btn-browse__close _btn-bg _hover01" onClick={handleClose}>Закрыть</button>
+              <button className="btn-browse__close _btn-bg _hover01" onClick={handleClose}>
+                Закрыть
+              </button>
             </div>
             <div className="pop-browse__btn-edit" style={{ display: isEditing ? 'block' : 'none' }}>
               <div className="btn-group">
-                <button className="btn-edit__edit _btn-bg _hover01" onClick={handleSave} disabled={isSubmitting}>
+                <button
+                  className="btn-edit__edit _btn-bg _hover01"
+                  onClick={handleSave}
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                 </button>
-                <button className="btn-edit__edit _btn-bor _hover03" onClick={handleCancel} disabled={isSubmitting}>Отменить</button>
-                <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete" onClick={handleDelete} disabled={isSubmitting}>
+                <button
+                  className="btn-edit__edit _btn-bor _hover03"
+                  onClick={handleCancel}
+                  disabled={isSubmitting}
+                >
+                  Отменить
+                </button>
+                <button
+                  className="btn-edit__delete _btn-bor _hover03"
+                  id="btnDelete"
+                  onClick={handleDelete}
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? 'Удаление...' : 'Удалить задачу'}
                 </button>
               </div>
-              <button className="btn-edit__close _btn-bg _hover01" onClick={handleClose} disabled={isSubmitting}>Закрыть</button>
+              <button
+                className="btn-edit__close _btn-bg _hover01"
+                onClick={handleClose}
+                disabled={isSubmitting}
+              >
+                Закрыть
+              </button>
             </div>
           </div>
         </div>
@@ -212,4 +265,3 @@ function PopBrowse({ id, title: initialTitle = "Название задачи", 
 }
 
 export default PopBrowse
-

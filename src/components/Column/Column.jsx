@@ -27,4 +27,3 @@ function Column({ title, cards = [] }) {
 }
 
 export default Column
-

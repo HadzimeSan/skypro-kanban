@@ -8,6 +8,5 @@ export const LoaderStyled = styled.div`
   justify-content: center;
   font-size: 18px;
   line-height: 1.4;
-  color: #94A6BE;
+  color: #94a6be;
 `
-

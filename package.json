@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"index.html\" \"vite.config.js\" \"package.json\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\" \"index.html\" \"vite.config.js\" \"package.json\""
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -18,6 +20,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "prettier": "^3.6.2",
     "vite": "^7.2.4"
   }
 }

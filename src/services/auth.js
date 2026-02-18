@@ -46,4 +46,3 @@ export function logout() {
 export function getStoredToken() {
   return getToken()
 }
-

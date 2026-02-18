@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const MainStyled = styled.main`
   width: 100%;
-  background-color: #EAEEF6;
+  background-color: #eaeef6;
 `
 
 export const MainBlock = styled.div`
@@ -25,4 +25,3 @@ export const MainContent = styled.div`
     display: block;
   }
 `
-

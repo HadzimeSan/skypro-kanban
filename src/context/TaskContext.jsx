@@ -1,5 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { getTasks, createTask, updateTask, deleteTask, getTaskById as apiGetTaskById } from '../services/tasks'
+import {
+  getTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+  getTaskById as apiGetTaskById,
+} from '../services/tasks'
 import { getStoredToken } from '../services/auth'
 
 const TaskContext = createContext(null)
@@ -66,7 +72,6 @@ export function TasksProvider({ children }) {
   const fetchTaskById = async (id) => {
     try {
       const task = await apiGetTaskById(id)
-      // Обновляем задачу в списке, если она там есть
       setTasks((prevTasks) => {
         const existingIndex = prevTasks.findIndex((t) => String(t.id) === String(id))
         if (existingIndex >= 0) {
@@ -106,5 +111,3 @@ export function useTasks() {
 
   return context
 }
-
-

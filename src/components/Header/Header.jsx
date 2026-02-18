@@ -1,20 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container } from '../App.styled'
-import {
-  HeaderStyled,
-  HeaderBlock,
-  Logo,
-  Nav,
-  ButtonNew,
-  UserLink,
-} from './Header.styled'
+import { HeaderStyled, HeaderBlock, Logo, Nav, ButtonNew, UserLink } from './Header.styled'
 import { useAuth } from '../../context/AuthContext'
 
 function Header() {
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false)
   const navigate = useNavigate()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
 
   const userName = user?.name || 'Пользователь'
   const userEmail = user?.login || ''
@@ -62,7 +55,7 @@ function Header() {
                 <input type="checkbox" className="checkbox" name="checkbox" />
               </div>
               <button type="button" className="_hover03" onClick={handleExit}>
-                <Link to="/exit">Выйти</Link>
+                Выйти
               </button>
             </div>
           </Nav>
@@ -73,4 +66,3 @@ function Header() {
 }
 
 export default Header
-

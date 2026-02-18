@@ -33,8 +33,7 @@ function BoardPage() {
           .then((task) => {
             setCurrentTask(task)
           })
-          .catch((e) => {
-            console.error('Ошибка загрузки задачи:', e)
+          .catch(() => {
             setCurrentTask(null)
           })
           .finally(() => {
@@ -71,23 +70,17 @@ function BoardPage() {
         <PopBrowse
           id={params.id}
           title={currentTask?.title || (isLoadingTask ? 'Загрузка...' : `Задача #${params.id}`)}
-          category={currentTask?.topic || "Web Design"}
-          description={currentTask?.description || ""}
-          date={currentTask?.date || "09.09.23"}
-          status={currentTask?.status || "Нужно сделать"}
+          category={currentTask?.topic || 'Web Design'}
+          description={currentTask?.description || ''}
+          date={currentTask?.date || '09.09.23'}
+          status={currentTask?.status || 'Нужно сделать'}
           onClose={handleCloseCard}
         />
       )}
-      {showNewCardModal && (
-        <PopNewCard onClose={handleCloseNewCard} />
-      )}
-      {showExitModal && (
-        <PopExit onExit={handleExit} onCancel={handleCancelExit} />
-      )}
+      {showNewCardModal && <PopNewCard onClose={handleCloseNewCard} />}
+      {showExitModal && <PopExit onExit={handleExit} onCancel={handleCancelExit} />}
     </Wrapper>
   )
 }
 
 export default BoardPage
-
-
