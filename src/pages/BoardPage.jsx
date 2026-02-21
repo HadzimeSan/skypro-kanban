@@ -72,7 +72,7 @@ function BoardPage() {
           title={currentTask?.title || (isLoadingTask ? 'Загрузка...' : `Задача #${params.id}`)}
           category={currentTask?.topic || 'Web Design'}
           description={currentTask?.description || ''}
-          date={currentTask?.date || '09.09.23'}
+          date={currentTask?.date || ''}
           status={currentTask?.status || 'Нужно сделать'}
           onClose={handleCloseCard}
         />

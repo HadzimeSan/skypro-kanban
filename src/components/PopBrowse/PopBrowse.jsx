@@ -5,23 +5,25 @@ import Calendar from '../Calendar/Calendar'
 import Categories from '../Categories/Categories'
 import Status from '../Status/Status'
 import { useTasks } from '../../context/TaskContext'
+import { formatDate } from '../../utils/dateFormat'
 
 function PopBrowse({
   id,
   title: initialTitle = 'Название задачи',
   category: initialCategory = 'Web Design',
   description: initialDescription = '',
-  date: initialDate = '09.09.23',
+  date: initialDate = '',
   status: initialStatus = 'Нужно сделать',
   onClose,
 }) {
   const navigate = useNavigate()
-  const { updateTask, deleteTask, loadTasks } = useTasks()
+  const { updateTask, deleteTask } = useTasks()
+  
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
   const [category, setCategory] = useState(initialCategory)
-  const [date, setDate] = useState(initialDate)
+  const [date, setDate] = useState(initialDate || new Date().toISOString())
   const [status, setStatus] = useState(initialStatus)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -30,7 +32,7 @@ function PopBrowse({
     setTitle(initialTitle)
     setDescription(initialDescription)
     setCategory(initialCategory)
-    setDate(initialDate)
+    setDate(initialDate || new Date().toISOString())
     setStatus(initialStatus)
   }, [initialTitle, initialDescription, initialCategory, initialDate, initialStatus])
 
@@ -61,7 +63,7 @@ function PopBrowse({
     setTitle(initialTitle)
     setDescription(initialDescription)
     setCategory(initialCategory)
-    setDate(initialDate)
+    setDate(initialDate || new Date().toISOString())
     setStatus(initialStatus)
     setError('')
     setIsEditing(false)
@@ -94,7 +96,6 @@ function PopBrowse({
         status: status || 'Без статуса',
         date: date || new Date().toISOString(),
       })
-      await loadTasks()
       setIsEditing(false)
       toast.success('Изменения успешно сохранены')
     } catch (e) {
@@ -121,7 +122,7 @@ function PopBrowse({
 
     try {
       await deleteTask(id)
-      await loadTasks()
+      toast.success('Задача успешно удалена')
       if (onClose) {
         onClose()
       } else {
@@ -166,18 +167,18 @@ function PopBrowse({
                   }}
                 />
               ) : (
-                <h3 className="pop-browse__ttl">{title}</h3>
+              <h3 className="pop-browse__ttl">{title}</h3>
               )}
               {!isEditing && (
                 <div className={`categories__theme theme-top ${categoryClass} _active-category`}>
                   <p className={categoryClass}>{category}</p>
-                </div>
+              </div>
               )}
             </div>
             {isEditing ? (
               <Status activeStatus={status} onStatusChange={handleStatusChange} />
             ) : (
-              <Status activeStatus={status} />
+            <Status activeStatus={status} />
             )}
             <div className="pop-browse__wrap">
               <form className="pop-browse__form form-browse" id="formBrowseCard" action="#">
@@ -199,7 +200,7 @@ function PopBrowse({
               {isEditing ? (
                 <Calendar mode="create" selectedDate={date} onDateChange={setDate} />
               ) : (
-                <Calendar mode="browse" selectedDate={date} />
+              <Calendar mode="browse" selectedDate={date ? formatDate(date) : '09.09.23'} />
               )}
             </div>
             {isEditing ? (
@@ -209,7 +210,7 @@ function PopBrowse({
                 onCategoryClick={handleCategoryClick}
               />
             ) : (
-              <Categories mode="display" activeCategory={category} />
+            <Categories mode="display" activeCategory={category} />
             )}
             <div
               className="pop-browse__btn-browse"

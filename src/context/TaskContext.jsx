@@ -44,8 +44,14 @@ export function TasksProvider({ children }) {
     const result = await createTask(task)
     if (Array.isArray(result?.tasks)) {
       setTasks(result.tasks.map((t) => ({ ...t, id: t._id || t.id })))
+    } else if (result?.task) {
+      const newTask = {
+        ...result.task,
+        id: result.task._id || result.task.id,
+      }
+      setTasks((prevTasks) => [...prevTasks, newTask])
     } else {
-      loadTasks()
+      await loadTasks()
     }
   }
 
@@ -53,8 +59,16 @@ export function TasksProvider({ children }) {
     const result = await updateTask(id, updates)
     if (Array.isArray(result?.tasks)) {
       setTasks(result.tasks.map((t) => ({ ...t, id: t._id || t.id })))
+    } else if (result?.task) {
+      const updatedTask = {
+        ...result.task,
+        id: result.task._id || result.task.id,
+      }
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (String(t.id) === String(id) ? updatedTask : t))
+      )
     } else {
-      loadTasks()
+      await loadTasks()
     }
   }
 
@@ -63,7 +77,7 @@ export function TasksProvider({ children }) {
     if (Array.isArray(result?.tasks)) {
       setTasks(result.tasks.map((t) => ({ ...t, id: t._id || t.id })))
     } else {
-      loadTasks()
+      setTasks((prevTasks) => prevTasks.filter((t) => String(t.id) !== String(id)))
     }
   }
 

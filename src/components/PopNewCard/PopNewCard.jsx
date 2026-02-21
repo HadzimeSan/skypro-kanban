@@ -7,7 +7,7 @@ import { useTasks } from '../../context/TaskContext'
 
 function PopNewCard({ onClose }) {
   const navigate = useNavigate()
-  const { createTask, loadTasks } = useTasks()
+  const { createTask } = useTasks()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [topic, setTopic] = useState('Web Design')
@@ -53,7 +53,6 @@ function PopNewCard({ onClose }) {
       }
 
       await createTask(taskData)
-      await loadTasks()
       toast.success('Задача успешно создана')
       if (onClose) {
         onClose()

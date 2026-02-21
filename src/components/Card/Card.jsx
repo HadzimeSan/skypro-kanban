@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { getCardTheme } from '../../theme'
+import { formatDate } from '../../utils/dateFormat'
 import {
   CardItem,
   CardStyled,
@@ -13,6 +14,7 @@ import {
 
 function Card({ id, title, date, category }) {
   const theme = getCardTheme(category)
+  const formattedDate = formatDate(date)
 
   return (
     <CardItem>
@@ -64,7 +66,7 @@ function Card({ id, title, date, category }) {
                 </clipPath>
               </defs>
             </svg>
-            <p>{date}</p>
+            <p>{formattedDate}</p>
           </CardDate>
         </CardContent>
       </CardStyled>
