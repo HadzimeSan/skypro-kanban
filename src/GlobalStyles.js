@@ -525,6 +525,16 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 24px;
     margin-right: 7px;
     opacity: 0.4;
+    transition: opacity 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  }
+  .categories__theme:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 1px rgba(86, 94, 239, 0.3);
+  }
+  .categories__theme._active-category {
+    opacity: 1 !important;
+    box-shadow: 0 0 0 2px rgba(86, 94, 239, 0.7);
   }
   .categories__theme p {
     font-size: 14px;
@@ -571,7 +581,8 @@ const GlobalStyle = createGlobalStyle`
     text-align: left;
   }
   .pop-browse__content .categories__theme {
-    opacity: 1;
+    /* Для режима выбора категорий оставляем общий стиль:
+       не форсим opacity:1, чтобы работал класс _active-category */
   }
   .pop-browse__content .theme-down {
     display: none;
