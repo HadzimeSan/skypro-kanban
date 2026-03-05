@@ -534,7 +534,7 @@ const GlobalStyle = createGlobalStyle`
   }
   .categories__theme._active-category {
     opacity: 1 !important;
-    box-shadow: 0 0 0 2px rgba(86, 94, 239, 0.7);
+    box-shadow: none;
   }
   .categories__theme p {
     font-size: 14px;

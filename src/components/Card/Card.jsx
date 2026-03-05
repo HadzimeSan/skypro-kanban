@@ -25,11 +25,11 @@ function Card({ id, title, date, category }) {
           </CardTheme>
           {id && (
             <Link to={`/card/${id}`}>
-              <CardButton>
-                <div></div>
-                <div></div>
-                <div></div>
-              </CardButton>
+            <CardButton>
+              <div></div>
+              <div></div>
+              <div></div>
+            </CardButton>
             </Link>
           )}
         </CardGroup>
