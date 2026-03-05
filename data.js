@@ -1,0 +1,53 @@
+export const cardsData = [
+  {
+    id: 1,
+    topic: 'Web Design',
+    title: 'Сверстать главную страницу',
+    date: '30.10.23',
+    status: 'Без статуса',
+  },
+  {
+    id: 2,
+    topic: 'Research',
+    title: 'Исследовать конкурентов',
+    date: '30.10.23',
+    status: 'Без статуса',
+  },
+  {
+    id: 3,
+    topic: 'Web Design',
+    title: 'Сделать адаптив для планшетов',
+    date: '31.10.23',
+    status: 'Нужно сделать',
+  },
+  {
+    id: 4,
+    topic: 'Copywriting',
+    title: 'Написать текст для лендинга',
+    date: '01.11.23',
+    status: 'В работе',
+  },
+  {
+    id: 5,
+    topic: 'Research',
+    title: 'Собрать отзывы пользователей',
+    date: '02.11.23',
+    status: 'В работе',
+  },
+  {
+    id: 6,
+    topic: 'Web Design',
+    title: 'Подготовить макеты для тестирования',
+    date: '03.11.23',
+    status: 'Тестирование',
+  },
+  {
+    id: 7,
+    topic: 'Research',
+    title: 'Анализ поведения в аналитике',
+    date: '04.11.23',
+    status: 'Готово',
+  },
+]
+
+
