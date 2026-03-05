@@ -1,28 +1,41 @@
-import { useEffect, useState } from 'react'
 import Column from '../Column/Column'
-import { cardsData } from '../../../data.js'
 import { Container } from '../App.styled'
 import { MainStyled, MainBlock, MainContent } from './Main.styled'
 import Loader from '../Loader/Loader'
+import { useTasks } from '../../context/TaskContext'
 
 function Main() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [cards, setCards] = useState([])
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCards(cardsData)
-      setIsLoading(false)
-    }, 1500)
-
-    return () => clearTimeout(timer)
-  }, [])
+  const { tasks, isLoading, error } = useTasks()
 
   if (isLoading) {
     return (
       <MainStyled>
         <Container>
           <Loader />
+        </Container>
+      </MainStyled>
+    )
+  }
+
+  if (error) {
+    return (
+      <MainStyled>
+        <Container>
+          <p>{error}</p>
+        </Container>
+      </MainStyled>
+    )
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return (
+      <MainStyled>
+        <Container>
+          <MainBlock>
+            <MainContent style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <p style={{ fontSize: '18px', color: '#94a6be' }}>Новых задач нет</p>
+            </MainContent>
+          </MainBlock>
         </Container>
       </MainStyled>
     )
@@ -38,7 +51,7 @@ function Main() {
 
   const columnsToRender = columnsConfig.map((column) => ({
     title: column.title,
-    cards: cards.filter((card) => card.status === column.status),
+    cards: tasks.filter((card) => card.status === column.status),
   }))
 
   return (
@@ -47,11 +60,7 @@ function Main() {
         <MainBlock>
           <MainContent>
             {columnsToRender.map((column) => (
-              <Column
-                key={column.title}
-                title={column.title}
-                cards={column.cards}
-              />
+              <Column key={column.title} title={column.title} cards={column.cards} />
             ))}
           </MainContent>
         </MainBlock>
@@ -61,4 +70,3 @@ function Main() {
 }
 
 export default Main
-

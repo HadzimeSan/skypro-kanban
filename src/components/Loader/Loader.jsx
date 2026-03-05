@@ -1,8 +1,12 @@
-import { LoaderStyled } from './Loader.styled'
+import { LoaderStyled, Spinner } from './Loader.styled'
 
 function Loader() {
-  return <LoaderStyled>Данные загружаются…</LoaderStyled>
+  return (
+    <LoaderStyled>
+      <Spinner />
+      <span>Данные загружаются…</span>
+    </LoaderStyled>
+  )
 }
 
 export default Loader
-

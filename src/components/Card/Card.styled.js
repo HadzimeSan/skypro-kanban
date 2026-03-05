@@ -21,7 +21,7 @@ export const CardItem = styled.div`
 export const CardStyled = styled.div`
   width: 220px;
   height: 130px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ export const CardStyled = styled.div`
   @media screen and (max-width: 1200px) {
     width: 220px;
     height: 130px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -79,7 +79,7 @@ export const CardButton = styled.div`
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background-color: #94A6BE;
+    background-color: #94a6be;
   }
 `
 
@@ -112,8 +112,7 @@ export const CardDate = styled.div`
     margin-left: 6px;
     font-size: 10px;
     line-height: 13px;
-    color: #94A6BE;
+    color: #94a6be;
     letter-spacing: 0.2px;
   }
 `
-

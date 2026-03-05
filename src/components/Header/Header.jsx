@@ -1,20 +1,27 @@
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Container } from '../App.styled'
-import {
-  HeaderStyled,
-  HeaderBlock,
-  Logo,
-  Nav,
-  ButtonNew,
-  UserLink,
-} from './Header.styled'
+import { HeaderStyled, HeaderBlock, Logo, Nav, ButtonNew, UserLink } from './Header.styled'
+import { useAuth } from '../../context/AuthContext'
+import { useThemeMode } from '../../context/ThemeContext'
 
-function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' }) {
+function Header() {
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false)
+  const navigate = useNavigate()
+  const { user } = useAuth()
+  const { isDark, toggleTheme } = useThemeMode()
+
+  const userName = user?.name || 'Пользователь'
+  const userEmail = user?.login || ''
 
   const handleUserClick = (event) => {
     event.preventDefault()
     setIsUserPopupOpen((prev) => !prev)
+  }
+
+  const handleExit = () => {
+    setIsUserPopupOpen(false)
+    navigate('/exit')
   }
 
   return (
@@ -22,18 +29,18 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
       <Container>
         <HeaderBlock>
           <Logo className="_show _light">
-            <a href="" target="_self">
+            <Link to="/">
               <img src="/images/logo.png" alt="logo" />
-            </a>
+            </Link>
           </Logo>
           <Logo className="_dark">
-            <a href="" target="_self">
+            <Link to="/">
               <img src="/images/logo_dark.png" alt="logo" />
-            </a>
+            </Link>
           </Logo>
           <Nav>
             <ButtonNew id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+              <Link to="/new-card">Создать новую задачу</Link>
             </ButtonNew>
             <UserLink href="#user-set-target" onClick={handleUserClick}>
               {userName}
@@ -47,10 +54,16 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
               <p className="pop-user-set__mail">{userEmail}</p>
               <div className="pop-user-set__theme">
                 <p>Темная тема</p>
-                <input type="checkbox" className="checkbox" name="checkbox" />
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  name="checkbox"
+                  checked={isDark}
+                  onChange={toggleTheme}
+                />
               </div>
-              <button type="button" className="_hover03">
-                <a href="#popExit">Выйти</a>
+              <button type="button" className="_hover03" onClick={handleExit}>
+                Выйти
               </button>
             </div>
           </Nav>
@@ -61,4 +74,3 @@ function Header({ userName = 'Ivan Ivanov', userEmail = 'ivan.ivanov@gmail.com' 
 }
 
 export default Header
-
